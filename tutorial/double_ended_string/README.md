@@ -1,7 +1,11 @@
-## Double-ended String Method Tutorial - Claisen rearrangement 
+## Double-Ended Growing String (GSM) Method Tutorial - Claisen rearrangement 
 
 #### 1) Compile the program. 
-You will need to install BLAS and LAPACK first (if not already installed)
+First off, clone my repository:
+
+    $ git clone git@github.com:andersx/molecularGSM.git
+
+You will need to install BLAS and LAPACK in order to compile (if not already installed):
 
     $ sudo apt-get install libblas-dev liblapack-dev
     
@@ -39,17 +43,22 @@ This is standard Gaussian notation. Change the pm6 for your method and basis of 
 
 2.5) Furthermore, there is an initial0001.xyz file, which contains the reactant and the product for the reaction. Copy this file into the scratch/ dicrectory. The format of this filename is quite strict, so if you want another filname (e.g. running several calculations), you are only allowed to change the four digits. 
 
-#### 2) Running the program
+#### 3) Running the program
 2.1) The program runs parallel with OpenMP, however, since the bottleneck is the gradient calculations, I suggest running your QM program in parallel, and just calculate a single node concurrently. I found that otherwise somtimes you end up with only one QM calculation running, but this is just my guide - might be different for your calculation.
 
 To setup the number of concurrent nodes (set to 1) being calculated, export the following variable for OpenMP:
 
-    export OMP_NUM_THREADS=1
+    $ export OMP_NUM_THREADS=1
 
-2.2) Starting the program! You need to remember the the four digits of your inputfile (0001 in this case), and how many cores you want Gaussian to use for the QM gradient evaluation. These are the two arguments. Lets say four cores in this example.
+3.2) Starting the program! You need to remember the the four digits of your inputfile (0001 in this case), and how many cores you want Gaussian to use for the QM gradient evaluation. These are the two arguments. Lets say four cores in this example.
 
-    ./gfstringq.exe 0001 4
+    $ ./gfstringq.exe 0001 4
 
-2.3) If it doesn't run, you failed. If it does, you should (after convergence) see a file called stringfile.xyz0001, which contains the string and the energies along the path. 
+3.3) If it doesn't run, you failed. If it does, you should (after convergence) see a file called stringfile.xyz0001, which contains the string and the energies along the path. 
 
-Feel free to fork+update this tutorial
+
+#### 4) Other information.
+
+You choose the program you want to use for the QM evaluation in the file qchem.h. To use e.g. ORCA, set "SE_ORCA 1" and recompile. If you set all USE_xxx to 0, the default seems to be MOPAC. In the tutorial folder, there is a file named ograd, required to setup ORCA calculations (instead of the ggrad file), and it works very similary. I only tested these three programs so far, so I have no experience to setup GSM with other methods.
+
+Feel free to fork+update this tutorial!
