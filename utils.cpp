@@ -1,12 +1,32 @@
 #include "icoord.h"
 #include "utils.h"
 #include "omp.h"
+#include <cblas.h>
 //#include <Accelerate/Accelerate.h>
 //#include <vecLib/clapack.h>
 // #include <mkl.h>
 //#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl.h"
 //#include "/export/apps/Intel/Compiler/11.1/075/mkl/include/mkl_lapack.h"
 //#include "/opt/acml5.3.1/gfortran64/include/acml.h"
+
+
+extern "C" {
+
+  int dgesvd_(char * jobu, char * jobvt, int * m, int * n,
+         double * A, int * lda, double * s, double * u,
+         int * ldu, double * vt,int * ldvt, double * work,
+         int * lwork, int * info);
+
+ int dsyevx_(char *jobz, char *range, char *uplo, int *n, 
+         double *a, int *lda, double *vl, double *vu, int *
+         il, int *iu, double *abstol, int *m, double *w, 
+         double *z__, int *ldz, double *work, int *lwork, 
+         int *iwork, int *ifail, int *info);
+
+  int dgetrf_(int* M, int *N, double* A, int* lda, int* IPIV, int* INFO);
+  int dgetri_(int* N, double* A, int* lda, int* IPIV, double* WORK, int* lwork, int* INFO);
+
+}
 
 #define USE_ACML 0
 
@@ -25,7 +45,9 @@ int close_val(double x1, double	x2, double diff)
 {
   int close = 0;
   if (fabs(x1-x2)<diff)
-    close = 1;  
+    
+      
+      close = 1;  
   return close;
 }
 
