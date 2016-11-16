@@ -1,7 +1,7 @@
 ## Double-Ended Growing String (GSM) Method Tutorial - Claisen rearrangement 
 
 #### 1) Compile the program. 
-First off, clone my repository:
+First off, clone my repository (which is a fork of the "official" prepository, but contains this tutorial):
 
     $ git clone git@github.com:andersx/molecularGSM.git
 
