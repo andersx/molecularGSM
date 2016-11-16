@@ -9,7 +9,7 @@ You will need to install BLAS and LAPACK in order to compile (if not already ins
 
     $ sudo apt-get install libblas-dev liblapack-dev
     
-Note, the version from ZimmermanGroup requires Intel MKL and is set up to use Intel's non-free compilers. This version defaults to GCC with generic Lapack and BLAS. So this should compile on basically any linux system. I had to change the source code a few places where Intel MKL was explicitly being imported, and define the LAPACK libraries as extern C in utils.cpp.
+Note, the version from ZimmermanGroup requires Intel MKL and is set up to use Intel's non-free compilers. This version defaults to GCC with generic Lapack and BLAS. So this should compile on basically any linux system. I had to change the source code a few places where Intel MKL was explicitly being imported, and define the LAPACK routines as extern C in utils.cpp.
 
 To compile type:
 
