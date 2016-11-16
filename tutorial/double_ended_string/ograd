@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+
+if [ -z $2 ]
+then
+  echo " need two arguments! "
+  exit
+fi
+
+#echo " in ograd: $1 $2 "
+
+ofile=scratch/orcain$1.in
+ofileout=scratch/orcain$1.out
+molfile=scratch/structure$1
+ncpu=$2
+
+#echo " ofile: $ofile ofileout: $ofileout molfile: $molfile ncpu: $ncpu"
+# echo "! PAL$ncpu" > $ofile
+
+########## DFT settings: #################
+# echo '! DFT BP86 ECP{LANL2} ENGRAD PAL4' > $ofile
+# echo '! RI PBE def2-svp ENGRAD ' > $ofile
+# echo '! HF-3c ENGRAD ' > $ofile
+echo '! PM3 ENGRAD ' > $ofile
+echo '! nomoprint' >> $ofile
+echo '%maxcore 1000' >> $ofile
+echo '%scf' >> $ofile
+echo '  maxiter 350' >> $ofile
+echo 'end' >> $ofile
+echo '* xyz -1 1' >> $ofile
+cat $molfile >> $ofile
+echo '*' >> $ofile
+
+#echo "running: /export/applications/orca_3_0_2_linux_x86_64/orca $ofile > $ofileout"
+# /export/applications/orca_3_0_2_linux_x86_64/orca $ofile > $ofileout
+source /home/andersx/modules/openmpi_gnu
+/opt/orca/orca $ofile > $ofileout
+rm -f orcain$1.*.tmp orcain$1.*.ges orcain$1.*.gbw orcain$1.*.prop orcain$1.*.ges
+

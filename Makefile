@@ -11,13 +11,15 @@ CMD = gfstringq.exe
 # Make sure it is defined
 #          ifeq ($(strip$(FORTRAN_COMPILER)),)
 # Otherwise you can define it here also by uncommenting next line
- FC = icpc -openmp -I$(MKLROOT)/include
+# FC = icpc -openmp -I$(MKLROOT)/include
 # FC = g++ -fopenmp -I$(MKLROOT)/include
 # FC = g++ -I$(MKLROOT)/include
 # FC = g++ -g -I$(MKLROOT)/include
 # FC = g++ -fopenmp -g -I$(MKLROOT)/include
+# Generic compiler for gnu compilers without Intel MKL: 
+FC = g++ -O2 -fopenmp
 GIT_VERSION := $(shell git describe --abbrev=4 --dirty --always --tags)
-DFLAGS = DFLAGS = -DVERSION=\"$(GIT_VERSION)\" #-Define the cpp flags to be used
+DFLAGS = -DVERSION=\"$(GIT_VERSION)\" #-Define the cpp flags to be used
 OFLAGS =  # optimization
 F95ROOT = $(MKLROOT)
 
@@ -25,7 +27,9 @@ F95ROOT = $(MKLROOT)
 #LINKERFLAGS =  -L$(MKLROOT)/lib/em64t $(F95ROOT)/lib/em64t/libmkl_lapack95_lp64.a -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm
 #Intel parallel openmp (only w/icpc compiler)
 #LINKERFLAGS =  -L$(MKLROOT)/lib/em64t -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm
-LINKERFLAGS =  -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm
+# LINKERFLAGS =  -L$(MKLROOT)/lib/intel64 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -lpthread -lm
+# Generic linking flag for gnu compilers:
+LINKERFLAGS =  -llapack -lblas -lgomp
 # MAC OS linkers
 #LINKERFLAGS = -lm -framework Accelerate
 
