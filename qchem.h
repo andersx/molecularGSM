@@ -5,7 +5,7 @@
 #define QCHEMSF 0
 #define USE_MOLPRO 0
 #define USE_ASE 0
-#define USE_GAUSSIAN 0
+#define USE_GAUSSIAN 1
 #define USE_ORCA 0
 #define THREADS_ON 0
 #define WRITE_FILES 0
